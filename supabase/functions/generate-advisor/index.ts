@@ -184,10 +184,17 @@ serve(async (req) => {
       });
     }
 
-    // Clean up response - remove markdown code blocks if present
+    // Clean up response - strip <think> tags and markdown code blocks
     let cleanContent = content.trim();
+    cleanContent = cleanContent.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
     if (cleanContent.startsWith("```")) {
       cleanContent = cleanContent.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
+    }
+    // Extract JSON object between first { and last }
+    const jsonStart = cleanContent.indexOf("{");
+    const jsonEnd = cleanContent.lastIndexOf("}");
+    if (jsonStart !== -1 && jsonEnd !== -1) {
+      cleanContent = cleanContent.slice(jsonStart, jsonEnd + 1);
     }
 
     const generated = JSON.parse(cleanContent);
