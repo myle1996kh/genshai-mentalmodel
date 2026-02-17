@@ -81,7 +81,8 @@ export const OpenClawExportPanel = ({ advisors, loading, onRefresh }: OpenClawEx
     toast.success(`Downloaded ${2 + exportResult.skillMds.length} files`);
   };
 
-  const advisorsWithBlueprint = advisors.filter((a) => a.hasBluePrint);
+  // Show all advisors, not just those with blueprints — export will generate on-the-fly
+  const exportableAdvisors = advisors;
 
   return (
     <Card className="border-border">
@@ -95,12 +96,12 @@ export const OpenClawExportPanel = ({ advisors, loading, onRefresh }: OpenClawEx
         <div className="flex items-end gap-3">
           <div className="flex-1 space-y-1.5">
             <label className="text-sm font-medium font-sans text-muted-foreground">Select Advisor</label>
-            <Select value={selectedAdvisorId} onValueChange={setSelectedAdvisorId}>
+             <Select value={selectedAdvisorId} onValueChange={setSelectedAdvisorId}>
               <SelectTrigger>
-                <SelectValue placeholder="Choose an advisor with a blueprint..." />
+                <SelectValue placeholder="Choose an advisor to export..." />
               </SelectTrigger>
               <SelectContent>
-                {advisorsWithBlueprint.map((a) => (
+                {exportableAdvisors.map((a) => (
                   <SelectItem key={a.id} value={a.id}>
                     <span className="flex items-center gap-2">
                       {a.type === 'persona' && <Brain className="w-3.5 h-3.5" />}
@@ -111,9 +112,9 @@ export const OpenClawExportPanel = ({ advisors, loading, onRefresh }: OpenClawEx
                     </span>
                   </SelectItem>
                 ))}
-                {advisorsWithBlueprint.length === 0 && (
+                 {exportableAdvisors.length === 0 && (
                   <SelectItem value="__none" disabled>
-                    No advisors with blueprints found
+                    No advisors found
                   </SelectItem>
                 )}
               </SelectContent>
