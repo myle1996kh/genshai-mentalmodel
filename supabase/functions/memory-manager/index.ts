@@ -164,9 +164,9 @@ Deno.serve(async (req) => {
         );
       }
 
-      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-      const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-      const aiConfig = await getAIProviderConfig(supabaseUrl, supabaseKey);
+      const sbUrl = Deno.env.get("SUPABASE_URL")!;
+      const sbKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const aiConfig = await getAIProviderConfig(sbUrl, sbKey);
       console.log("Extract profile using provider:", aiConfig.provider);
 
       // Extract profile info using AI tool calling
@@ -239,9 +239,9 @@ Deno.serve(async (req) => {
       }
 
       // Update profile in database
-      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-      const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-      const supabase = createClient(supabaseUrl, supabaseKey);
+      const supabaseUrl2 = Deno.env.get("SUPABASE_URL")!;
+      const supabaseKey2 = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const supabase = createClient(supabaseUrl2, supabaseKey2);
 
       // Get existing profile
       const { data: existing } = await supabase

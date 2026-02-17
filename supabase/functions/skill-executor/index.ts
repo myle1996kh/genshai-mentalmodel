@@ -221,8 +221,8 @@ serve(async (req) => {
 
         // Cleanup old cache entries (simple LRU)
         if (cache.size > 1000) {
-            const oldestKey = cache.keys().next().value;
-            cache.delete(oldestKey);
+            const oldestKey = cache.keys().next().value as string;
+            if (oldestKey) cache.delete(oldestKey);
         }
 
         // Log execution
